@@ -55,6 +55,12 @@
       "posX": "80",
       "posY": "150",
       "type": "meeting"
+    },
+    {
+      "id": 10,
+      "posX": "250",
+      "posY": "350",
+      "type": "desk"
     }
   ]
 }

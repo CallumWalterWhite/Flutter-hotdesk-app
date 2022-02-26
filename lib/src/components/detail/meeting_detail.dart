@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
 
+import '../../entities/booking.dart';
 import '../../persistence/booking_repository.dart';
+import '../../constants/location_duration_codes.dart';
 
-class DeskDetail extends StatelessWidget {
+class MeetingDetail extends StatelessWidget {
   final int id;
+  final int floorId;
   late BookingRepository _bookingRepository;
-  DeskDetail({Key? key, required this.id}) : super(key: key) {
+  MeetingDetail({Key? key, required this.id, required this.floorId}) : super(key: key){
     _bookingRepository = BookingRepository();
   }
 
@@ -15,26 +17,27 @@ class DeskDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Desk Location'),
+        title: Text('Meeting Location'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Desk Location',
+              'Meeting Location',
             ),
             ElevatedButton(
               child: Text('Return Yes'),
               onPressed: () async {
-                await _bookingRepository.Add(1, id, DateTime.now(), 'FULL');
-                Navigator.pop(context, "Yes");
+                Booking booking = Booking(DateTime.now(), floorId, id, LocationDurationCodes.FULL);
+                await _bookingRepository.Add(booking);
+                Navigator.pop(context, booking);
               },
             ),
             ElevatedButton(
               child: Text('Return No'),
               onPressed: () {
-                Navigator.pop(context, "No");
+                Navigator.pop(context, null);
               },
             ),
           ],

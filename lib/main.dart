@@ -4,14 +4,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:itec27001/src/ioc/persistence_installer.dart';
+import 'package:itec27001/src/ioc/service_installer.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
-import 'src/map/floor.dart';
+import 'src/components/floor.dart';
 
 void main() {
+  iocServiceLocator();
+  iocPersistenceLocator();
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
@@ -27,9 +31,9 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-          highlightColor: Colors.deepPurple,
+          highlightColor: Colors.redAccent,
         ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.red,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -76,7 +80,7 @@ class HomePage extends StatelessWidget {
             color: Colors.grey,
           ),
           ElevatedButton(
-            child: const Text('Open Hotdesk map'),
+            child: const Text('Open Hotdesk components'),
             onPressed: () {
               Navigator.push(
                 context,

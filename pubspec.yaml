@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^3.3.3
   provider: ^6.0.1
   google_fonts: any
+  ioc: ^0.3.0
 
 dev_dependencies:
   flutter_test:

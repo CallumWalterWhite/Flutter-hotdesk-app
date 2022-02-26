@@ -4,10 +4,10 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import '../collection/booking.dart';
-import '../persistence/booking_repository.dart';
+import 'package:ioc/ioc.dart';
+import '../entities/booking.dart';
+import '../services/booking_service.dart';
 import 'location.dart';
-import 'dart:developer' as developer;
 
 class Floor extends StatefulWidget {
   Floor({Key? key, required this.effectiveDate, required this.floorTitle}) : super(key: key);
@@ -24,14 +24,12 @@ class _FloorState extends State<Floor> {
   final DateTime effectiveDate;
   final String floorTitle;
   late dynamic locationPoints;
-  late BookingRepository _bookingRepository;
+  final BookingService _bookingService = Ioc().use('bookingService');
   late List<Booking> _bookings;
-  bool isImageloaded = false;
-  bool isBookingloaded = false;
+  bool imageLoaded = false;
+  bool bookingLoaded = false;
 
-  _FloorState(this.effectiveDate, this.floorTitle){
-    _bookingRepository = BookingRepository();
-  }
+  _FloorState(this.effectiveDate, this.floorTitle);
 
   void initState() {
     super.initState();
@@ -47,10 +45,10 @@ class _FloorState extends State<Floor> {
   Future<void> loadLocationPoints() async {
     final String response = await rootBundle.loadString('assets/template/floor1_locations.json');
     locationPoints = await json.decode(response);
-    //TODO: update floor id to resolve from app state
-    _bookings = await _bookingRepository.GetAll(1, effectiveDate);
+    int floorId = 1;
+    _bookings = await _bookingService.getAll(effectiveDate, floorId);
     setState(() {
-      isBookingloaded = true;
+      bookingLoaded = true;
     });
   }
 
@@ -58,7 +56,7 @@ class _FloorState extends State<Floor> {
     final Completer<ui.Image> completer = Completer();
     ui.decodeImageFromList(Uint8List.fromList(img), (ui.Image img) {
       setState(() {
-        isImageloaded = true;
+        imageLoaded = true;
       });
       return completer.complete(img);
     });
@@ -66,13 +64,18 @@ class _FloorState extends State<Floor> {
   }
 
   List<Widget> buildOverlay() {
-    if (isBookingloaded){
+    if (bookingLoaded){
       List<Widget> widgets = [];
       widgets.add(CustomPaint(
         painter: FloorOverlay(image: image),
       ));
       locationPoints["points"].forEach((point) => {
-        widgets.add(Location(id: point["id"], pos: Offset(double.parse(point["posX"]), double.parse(point["posY"])), type: point["type"], bookings: _bookings.where((element) => element.locationId == point["id"]).toList(),))
+        widgets.add(Location(
+          id: point["id"],
+          floorId: locationPoints["floorId"],
+          pos: Offset(double.parse(point["posX"]), double.parse(point["posY"])),
+          type: point["type"],
+          bookings: _bookings.where((element) => element.locationId == point["id"]).toList()))
       });
       return widgets;
     }
@@ -82,7 +85,7 @@ class _FloorState extends State<Floor> {
   }
 
   Widget _buildImage() {
-    if (isImageloaded) {
+    if (imageLoaded) {
       return Stack(
         children: buildOverlay(),
       );
@@ -92,7 +95,6 @@ class _FloorState extends State<Floor> {
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: Text(floorTitle),
