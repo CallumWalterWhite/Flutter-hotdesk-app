@@ -1,0 +1,60 @@
+{
+  "floorId": 1,
+  "points": [
+    {
+      "id": 1,
+      "posX": "5",
+      "posY": "10",
+      "type": "desk"
+    },
+    {
+      "id": 2,
+      "posX": "30",
+      "posY": "10",
+      "type": "desk"
+    },
+    {
+      "id": 3,
+      "posX": "55",
+      "posY": "10",
+      "type": "desk"
+    },
+    {
+      "id": 4,
+      "posX": "80",
+      "posY": "10",
+      "type": "desk"
+    },
+
+    {
+      "id": 5,
+      "posX": "5",
+      "posY": "40",
+      "type": "desk"
+    },
+    {
+      "id": 6,
+      "posX": "30",
+      "posY": "40",
+      "type": "desk"
+    },
+    {
+      "id": 7,
+      "posX": "55",
+      "posY": "40",
+      "type": "desk"
+    },
+    {
+      "id": 8,
+      "posX": "80",
+      "posY": "40",
+      "type": "desk"
+    },
+    {
+      "id": 9,
+      "posX": "80",
+      "posY": "150",
+      "type": "meeting"
+    }
+  ]
+}
