@@ -62,6 +62,7 @@ flutter:
     - assets/codelab.png
     - assets/office.png
     - assets/desk.png
+    - assets/logo.png
     - assets/meeting.png
     - assets/template/floor1_locations.json
 

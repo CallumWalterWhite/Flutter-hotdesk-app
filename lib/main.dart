@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:itec27001/src/components/welcome.dart';
 import 'package:itec27001/src/ioc/persistence_installer.dart';
 import 'package:itec27001/src/ioc/service_installer.dart';
 import 'package:provider/provider.dart';
@@ -17,11 +18,31 @@ void main() {
   iocServiceLocator();
   iocPersistenceLocator();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
-    ),
+      MyApp()
+    // ChangeNotifierProvider(
+    //   create: (context) => ApplicationState(),
+    //   builder: (context, _) => App(),
+    // ),
   );
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
+          bodyText1: GoogleFonts.montserrat(textStyle: textTheme.bodyText1),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const WelcomeScreen(),
+    );
+  }
 }
 
 class App extends StatelessWidget {

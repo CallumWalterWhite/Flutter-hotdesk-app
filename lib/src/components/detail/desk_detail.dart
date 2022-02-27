@@ -38,7 +38,7 @@ class _DeskDetailState extends State<DeskDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Desk location")),
+      appBar: AppBar(title: const Text("Book a hot desk")),
       body:Form(
         key: _formKey,
         child: Column(
