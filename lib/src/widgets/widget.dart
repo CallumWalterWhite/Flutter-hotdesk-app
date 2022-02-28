@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../util/colour_palette.dart';
+
 class Header extends StatelessWidget {
   const Header(this.heading);
   final String heading;
@@ -91,7 +93,7 @@ class StyledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OutlinedButton(
     style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: Colors.deepPurple)),
+        side: const BorderSide(color: mainColour)),
     onPressed: onPressed,
     child: child,
   );
@@ -123,7 +125,42 @@ void ShowErrorDialog(BuildContext context, String title, Exception e) {
             },
             child: const Text(
               'OK',
-              style: TextStyle(color: Colors.deepPurple),
+              style: TextStyle(color: mainColour),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> ShowDialog(BuildContext context, String title, String message, Function? callback) async {
+  showDialog<void>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 24),
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(
+                  message
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          StyledButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              callback!();
+            },
+            child: const Text(
+              'OK',
+              style: TextStyle(color: mainColour),
             ),
           ),
         ],

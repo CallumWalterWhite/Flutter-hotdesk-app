@@ -8,7 +8,7 @@ import '../services/booking_service.dart';
 import '../services/floor_service.dart';
 import '../services/location_service.dart';
 import '../util/colour_palette.dart';
-import 'detail/floor_detail.dart';
+import 'schedule/floor_detail.dart';
 
 class FloorSelector extends StatefulWidget {
   const FloorSelector({Key? key}) : super(key: key);
@@ -37,10 +37,10 @@ class _FloorSelectorState extends State<FloorSelector> {
   }
 
   Future <void> init() async {
-    await loadLocationDate();
+    await loadLocationData();
   }
 
-  Future<void> loadLocationDate() async {
+  Future<void> loadLocationData() async {
     floors = await _floorService.getAll();
     for (var element in floors) {
       List<Booking> bookings = await _bookingService.getAll(effectiveDate, element.id);
@@ -66,70 +66,64 @@ class _FloorSelectorState extends State<FloorSelector> {
         floorLocation = {};
         floorsLoaded = false;
       });
-      loadLocationDate();
+      loadLocationData();
     }
   }
 
   Widget _buildSelections() {
-    return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (context, index) {
-        List<ListTile> listTiles = [];
-        listTiles.add(
-            ListTile(
-              leading: const Icon(Icons.date_range),
-              title: Text(
-                "${effectiveDate.toLocal()}".split(' ')[0],
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              onTap: () => _selectDate(context),
-            )
-        );
-        listTiles.add(
-            ListTile(
-              leading: const Icon(Icons.monitor),
-              title: Text(
-                "Floor name",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              trailing: const Icon(Icons.book),
-              onTap: () => _selectDate(context),
-            )
-        );
-        if (!floorsLoaded) {
-          listTiles.add(
-              ListTile(
-                title: Text(
-                  "Loading....",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              )
-          );
-          return Column(children: listTiles,);
-        }
-        for (var element in floors) {
-          String? bookingCount = floorBookings[element.id]?.length.toString();
-          int? pointCount = floorLocation[element.id]?.positions.length;
-          listTiles.add(
-              ListTile(
-                leading: Text(
-                  '   $pointCount',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                title: Text(
-                  element.title,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                trailing: Text(bookingCount ?? "0"),
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FloorDetail(effectiveDate: effectiveDate, floor: element,),
-                )),
-              )
-          );
-        }
-        return Column(children: listTiles,);
-      },
+    List<ListTile> listTiles = [];
+    listTiles.add(
+        ListTile(
+          leading: const Icon(Icons.date_range),
+          title: Text(
+            "${effectiveDate.toLocal()}".split(' ')[0],
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          onTap: () => _selectDate(context),
+        )
     );
+    listTiles.add(
+        ListTile(
+          leading: const Icon(Icons.monitor),
+          title: Text(
+            "Floor name",
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          trailing: const Icon(Icons.book),
+        )
+    );
+    if (!floorsLoaded) {
+      listTiles.add(
+          ListTile(
+            title: Text(
+              "Loading....",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          )
+      );
+      return Column(children: listTiles,);
+    }
+    for (var element in floors) {
+      String? bookingCount = floorBookings[element.id]?.length.toString();
+      int? pointCount = floorLocation[element.id]?.positions.length;
+      listTiles.add(
+          ListTile(
+            leading: Text(
+              '   $pointCount',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            title: Text(
+              element.title,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            trailing: Text(bookingCount ?? "0"),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => FloorDetail(effectiveDate: effectiveDate, floor: element,),
+            )),
+          )
+      );
+    }
+    return Column(children: listTiles,);
   }
   @override
   Widget build(BuildContext context) {

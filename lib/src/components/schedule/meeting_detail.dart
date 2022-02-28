@@ -4,6 +4,7 @@ import 'package:ioc/ioc.dart';
 import '../../entities/booking.dart';
 import '../../constants/location_duration_codes.dart';
 import '../../services/booking_service.dart';
+import '../../widgets/widget.dart';
 
 class MeetingDetail extends StatefulWidget {
   const MeetingDetail({Key? key, required this.id, required this.floorId, required this.effectiveDate}) : super(key: key);
@@ -29,7 +30,9 @@ class _MeetingDetailState extends State<MeetingDetail> {
 
   Future<void> _processBooking() async {
     Booking booking = await _bookingService.createMeetingBooking(effectiveDate, _startTime, _endTime, floorId, id, LocationDurationCodes.TIME);
-    Navigator.pop(context, booking);
+    await ShowDialog(context, "Booked", "Meeting has been booked.", () {
+      Navigator.pop(context, booking);
+    });
   }
 
   void _selectStartTime() async {
@@ -44,7 +47,7 @@ class _MeetingDetailState extends State<MeetingDetail> {
     }
   }
 
-  void _endStartTime() async {
+  void _selectEndTime() async {
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
       initialTime: _endTime,
@@ -59,57 +62,51 @@ class _MeetingDetailState extends State<MeetingDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Book a meeting room")),
-        body:Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: _selectStartTime,
-                child: const Text('Select Start time'),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Selected time: ${_startTime.format(context)}',
-              ),
-              const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0)
-              ),
-              ElevatedButton(
-                onPressed: _endStartTime,
-                child: const Text('Select End time'),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Selected time: ${_endTime.format(context)}',
-              ),
-              const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0)
-              ),
-              Text(validation),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      await _processBooking();
-                    }
-                  },
-                  child: const Text('Submit'),
+      appBar: AppBar(
+        title: const Text("Meeting room booking"),
+      ),
+      body:
+      Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.access_time),
+              title: Text('Start time: ${_startTime.format(context)}'),
+              onTap: _selectStartTime,
+            ),
+            ListTile(
+              leading: const Icon(Icons.access_time),
+              title: Text('End time: ${_endTime.format(context)}'),
+              onTap: _selectEndTime,
+            ),
+            Text(validation),
+            Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await _processBooking();
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {Navigator.pop(context, null);
-                  },
-                  child: const Text('Cancel'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {Navigator.pop(context, null);
+                    },
+                    child: const Text('Cancel'),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
+              ],
+            )
+          ],
+        ),
+      )
     );
   }
 }

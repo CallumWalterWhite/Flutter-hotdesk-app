@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../components/detail/location_detail.dart';
+import '../components/schedule/location_detail.dart';
 import '../entities/booking.dart';
 import '../constants/location_type_codes.dart';
 

@@ -47,8 +47,8 @@ class Booking implements FirebaseDocument {
     };
 
     if (duration == LocationDurationCodes.TIME){
-      fbObject["startTime"] = TimestampFormatter.Format(startTime!);
-      fbObject["endTime"] = TimestampFormatter.Format(endTime!);
+      fbObject["startTime"] = (startTime!);
+      fbObject["endTime"] = (endTime!);
     }
 
     return fbObject;

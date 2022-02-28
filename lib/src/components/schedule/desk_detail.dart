@@ -5,6 +5,7 @@ import '../../constants/location_duration_codes.dart';
 import '../../entities/booking.dart';
 import '../../services/booking_service.dart';
 import '../../util/translation.dart';
+import '../../widgets/widget.dart';
 
 class DeskDetail extends StatefulWidget {
   const DeskDetail({Key? key, required this.id, required this.floorId, required this.effectiveDate}) : super(key: key);
@@ -23,7 +24,7 @@ class _DeskDetailState extends State<DeskDetail> {
   final int id;
   final int floorId;
   final DateTime effectiveDate;
-  late Translation _translation = Translation();
+  late final Translation _translation = Translation();
   static const String defaultDropDownValue = 'Select Value';
 
   String dropdownValue = defaultDropDownValue;
@@ -33,7 +34,9 @@ class _DeskDetailState extends State<DeskDetail> {
 
   Future<void> _processBooking() async {
     Booking booking = await _bookingService.createDeskBooking(effectiveDate, floorId, id, _translation.getTranslationKey(dropdownValue)!);
-    Navigator.pop(context, booking);
+    await ShowDialog(context, "Booked", "Hot desk has been booked.", () {
+      Navigator.pop(context, booking);
+    });
   }
 
   @override
@@ -42,8 +45,8 @@ class _DeskDetailState extends State<DeskDetail> {
       appBar: AppBar(title: const Text("Book a hot desk")),
       body:Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child:
+        Column(
           children: <Widget>[
             DropdownButtonFormField<String>(
               value: dropdownValue,
@@ -71,30 +74,33 @@ class _DeskDetailState extends State<DeskDetail> {
                 });
               },
             ),
-            Text(dropdownValue),
-            const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0)
+            const Divider(
+              height: 1.0,
             ),
             Text(validation),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    await _processBooking();
-                  }
-                },
-                child: const Text('Submit'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () {Navigator.pop(context, null);
-                },
-                child: const Text('Cancel'),
-              ),
-            ),
+            Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await _processBooking();
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {Navigator.pop(context, null);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       )

@@ -5,6 +5,7 @@ import 'package:itec27001/src/components/user_booking.dart';
 import '../util/colour_palette.dart';
 import '../widgets/navigation_drawer.dart';
 import 'floor_selector.dart';
+import 'news/news_home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,8 +15,8 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: mainColour),
-        title: const Text("Home dashboard", style: const TextStyle(color: mainColour)),
+        iconTheme: const IconThemeData(color: mainColour),
+        title: const Text("Home dashboard", style: TextStyle(color: mainColour)),
         backgroundColor: Colors.white,
       ),
       body:
@@ -26,6 +27,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
+                  const SizedBox(height: 10,),
                   Text("Welcome ${FirebaseAuth.instance.currentUser?.displayName}",
                       style: const TextStyle(
                         fontSize: 20,
@@ -53,32 +55,29 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: Text("Book a meeting/desk"),
+                      child: const Text("Book a meeting/desk"),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const FloorSelector(),
                       )),
                     ),
-                    color: Colors.teal[100],
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: Text("Past bookings"),
+                      child: const Text("News"),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const UserBooking(),
+                        builder: (context) => const NewsHome(),
                       )),
                     ),
-                    color: Colors.teal[200],
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: Text("My schedule"),
+                      child: const Text("My Schedule"),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const UserBooking(),
                       )),
                     ),
-                    color: Colors.teal[300],
                   ),
                 ],
               )

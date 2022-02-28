@@ -67,15 +67,16 @@ class _FloorDetailState extends State<FloorDetail> {
     if (bookingLoaded){
       List<Widget> widgets = [];
       widgets.add(image);
-      location.positions.forEach((point) => {
+      for (var point in location.positions)
+      {
         widgets.add(LocationDetail(
           id: point.id,
           floorId: location.floorId,
           pos: Offset(point.posX, point.posY),
           type: point.type,
           bookings: _bookings.where((element) => element.locationId == point.id).toList(),
-          effectiveDate: effectiveDate,),)
-      });
+          effectiveDate: effectiveDate,),);
+      }
       return widgets;
     }
     else {

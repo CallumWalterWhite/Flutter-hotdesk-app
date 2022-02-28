@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:itec27001/src/components/auth/profile_detail.dart';
 
-import '../components/detail/floor_detail.dart';
+import '../components/news/news_home.dart';
+import '../components/schedule/floor_detail.dart';
 import '../components/floor_selector.dart';
 import '../components/home.dart';
 import '../components/user_booking.dart';
@@ -43,13 +45,13 @@ class NavigationDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'My schedule',
-                    icon: Icons.wrap_text,
+                    text: 'News',
+                    icon: Icons.now_wallpaper,
                     onClicked: () => selectedItem(context, 3),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'Bookings',
+                    text: 'Schedule',
                     icon: Icons.wrap_text,
                     onClicked: () => selectedItem(context, 4),
                   ),
@@ -95,9 +97,19 @@ class NavigationDrawer extends StatelessWidget {
           builder: (context) => const HomeScreen(),
         ));
         break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const ProfileDetail(),
+        ));
+        break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const FloorSelector(),
+        ));
+        break;
+      case 3:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const NewsHome(),
         ));
         break;
       case 4:
