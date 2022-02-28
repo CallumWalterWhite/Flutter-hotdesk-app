@@ -1,12 +1,8 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import '../../firebase_options.dart';
-import '../widgets.dart';
-import 'home.dart';
+import '../../widgets/widget.dart';
+import '../home.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -17,15 +13,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  _SignUpScreenState(){
-    init();
-  }
-
-  Future<void> init() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+  _SignUpScreenState();
 
   final _formKey = GlobalKey<FormState>();
   final _userNameController = TextEditingController();

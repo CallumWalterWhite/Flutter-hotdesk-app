@@ -4,17 +4,17 @@ import 'package:ioc/ioc.dart';
 import '../../constants/location_duration_codes.dart';
 import '../../entities/booking.dart';
 import '../../services/booking_service.dart';
-import '../../services/translation_service.dart';
 import '../../util/translation.dart';
 
 class DeskDetail extends StatefulWidget {
-  const DeskDetail({Key? key, required this.id, required this.floorId}) : super(key: key);
+  const DeskDetail({Key? key, required this.id, required this.floorId, required this.effectiveDate}) : super(key: key);
 
   final int id;
   final int floorId;
+  final DateTime effectiveDate;
 
   @override
-  State<DeskDetail> createState() => _DeskDetailState(id: id, floorId: floorId);
+  State<DeskDetail> createState() => _DeskDetailState(effectiveDate, id, floorId);
 }
 
 class _DeskDetailState extends State<DeskDetail> {
@@ -22,16 +22,17 @@ class _DeskDetailState extends State<DeskDetail> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final int id;
   final int floorId;
-  late Translation _translation;
+  final DateTime effectiveDate;
+  late Translation _translation = Translation();
   static const String defaultDropDownValue = 'Select Value';
+
   String dropdownValue = defaultDropDownValue;
-  _DeskDetailState({required this.id, required this.floorId}){
-    _translation = Translation();
-  }
   String validation = '';
 
+  _DeskDetailState(this.effectiveDate, this.id, this.floorId);
+
   Future<void> _processBooking() async {
-    Booking booking = await _bookingService.createBooking(DateTime.now(), floorId, id, _translation.getTranslationKey(dropdownValue)!);
+    Booking booking = await _bookingService.createDeskBooking(effectiveDate, floorId, id, _translation.getTranslationKey(dropdownValue)!);
     Navigator.pop(context, booking);
   }
 

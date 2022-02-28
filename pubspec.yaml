@@ -36,6 +36,7 @@ dependencies:
   provider: ^6.0.1
   google_fonts: any
   ioc: ^0.3.0
+  firebase_storage: ^10.2.9
 
 dev_dependencies:
   flutter_test:
@@ -59,12 +60,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/codelab.png
-    - assets/office.png
     - assets/desk.png
     - assets/logo.png
     - assets/meeting.png
-    - assets/template/floor1_locations.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

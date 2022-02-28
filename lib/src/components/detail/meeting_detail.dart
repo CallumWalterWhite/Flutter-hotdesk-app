@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:ioc/ioc.dart';
 
 import '../../entities/booking.dart';
-import '../../persistence/booking_repository.dart';
 import '../../constants/location_duration_codes.dart';
 import '../../services/booking_service.dart';
 
 class MeetingDetail extends StatefulWidget {
-  const MeetingDetail({Key? key, required this.id, required this.floorId}) : super(key: key);
+  const MeetingDetail({Key? key, required this.id, required this.floorId, required this.effectiveDate}) : super(key: key);
 
   final int id;
   final int floorId;
+  final DateTime effectiveDate;
 
   @override
-  State<MeetingDetail> createState() => _MeetingDetailState(id: id, floorId: floorId);
+  State<MeetingDetail> createState() => _MeetingDetailState(id: id, floorId: floorId, effectiveDate: effectiveDate);
 }
 
 class _MeetingDetailState extends State<MeetingDetail> {
   final int id;
   final int floorId;
+  final DateTime effectiveDate;
   TimeOfDay _startTime = const TimeOfDay(hour: 9, minute: 00);
   TimeOfDay _endTime = const TimeOfDay(hour: 10, minute: 00);
   final BookingService _bookingService = Ioc().use('bookingService');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  _MeetingDetailState({Key? key, required this.id, required this.floorId});
+  _MeetingDetailState({Key? key, required this.id, required this.floorId, required this.effectiveDate});
   String validation = '';
 
   Future<void> _processBooking() async {
-    Booking booking = await _bookingService.createBooking(DateTime.now(), floorId, id, LocationDurationCodes.TIME);
+    Booking booking = await _bookingService.createMeetingBooking(effectiveDate, _startTime, _endTime, floorId, id, LocationDurationCodes.TIME);
     Navigator.pop(context, booking);
   }
 

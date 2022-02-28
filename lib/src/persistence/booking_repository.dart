@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:itec27001/src/persistence/repository.dart';
 
 import '../entities/booking.dart';
@@ -11,11 +10,12 @@ class BookingRepository extends Repository {
     init();
   }
 
-  Future<List<Booking>> GetAll(int floorId, DateTime effectiveDate) async {
+  Future<List<Booking>> getAll(int floorId, DateTime effectiveDate) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
         .where('effective_date', isEqualTo: (TimestampFormatter.Format(effectiveDate)))
+        .where('floor_id', isEqualTo: floorId)
         .get();
     for (var element in querySnapshot.docChanges) {
       DocumentSnapshot documentSnapshot = element.doc;
@@ -24,7 +24,20 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
-  Future<Booking?> GetLatest() async {
+  Future<List<Booking>> getAllByUserId(String userId) async {
+    List<Booking> bookings = [];
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .where('userId', isEqualTo: (userId))
+        .get();
+    for (var element in querySnapshot.docChanges) {
+      DocumentSnapshot documentSnapshot = element.doc;
+      bookings.add(Booking.create(documentSnapshot));
+    }
+    return bookings;
+  }
+
+  Future<Booking?> getLatest() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
         .orderBy('id', descending: true)
@@ -37,8 +50,8 @@ class BookingRepository extends Repository {
     return Booking.create(documentSnapshot);
   }
 
-  Future<void> Add(Booking booking) async {
-    Booking? latestBooking = await GetLatest();
+  Future<void> add(Booking booking) async {
+    Booking? latestBooking = await getLatest();
     booking.setId(latestBooking != null ? (latestBooking.id! + 1) : 1);
     if (booking.id == null){
       throw Exception("Id is required for document to be saved.");

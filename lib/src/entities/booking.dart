@@ -10,8 +10,8 @@ class Booking implements FirebaseDocument {
   final int floorId;
   final int locationId;
   final String duration;
-  late DateTime startTime;
-  late DateTime endTime;
+  late DateTime? startTime;
+  late DateTime? endTime;
   Booking(this.effectiveDate, this.floorId, this.locationId, this.duration);
 
   static Booking create(DocumentSnapshot documentSnapshot){
@@ -47,8 +47,8 @@ class Booking implements FirebaseDocument {
     };
 
     if (duration == LocationDurationCodes.TIME){
-      fbObject["startTime"] = TimestampFormatter.Format(startTime);
-      fbObject["endTime"] = TimestampFormatter.Format(endTime);
+      fbObject["startTime"] = TimestampFormatter.Format(startTime!);
+      fbObject["endTime"] = TimestampFormatter.Format(endTime!);
     }
 
     return fbObject;

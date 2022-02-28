@@ -4,7 +4,8 @@ class Translation {
   Translation(){
     translations = <String, String>{
       "FULL": "Full day",
-      "HALF": "Half day"
+      "HALF": "Half day",
+      "TIME": "Time"
     };
   }
 
@@ -14,7 +15,7 @@ class Translation {
 
   String? getTranslationKey(String value){
     String? tkey;
-    translations.forEach((key, value) {
+    translations.forEach((key, t) {
       if (translations[key] == value){
         tkey = key;
         return;

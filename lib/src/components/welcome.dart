@@ -1,10 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:itec27001/src/components/signup.dart';
+import 'package:itec27001/src/components/auth/signup.dart';
 
-import 'login.dart';
+import '../../firebase_options.dart';
+import 'home.dart';
+import 'auth/login.dart';
 
-class WelcomeScreen extends StatelessWidget {
+
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  _WelcomeScreenState() {
+    init();
+  }
+
+  Future<void> init() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    if (FirebaseAuth.instance.currentUser != null){
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'HotDesk',
+                  text: 'Employee app',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,

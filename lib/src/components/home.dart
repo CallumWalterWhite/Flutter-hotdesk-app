@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:itec27001/src/components/welcome.dart';
+import 'package:itec27001/src/components/user_booking.dart';
 
-import 'floor.dart';
+import '../util/colour_palette.dart';
+import '../widgets/navigation_drawer.dart';
+import 'floor_selector.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,90 +12,79 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 38,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.05),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      drawer: NavigationDrawer(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: mainColour),
+        title: const Text("Home dashboard", style: const TextStyle(color: mainColour)),
+        backgroundColor: Colors.white,
+      ),
+      body:
+      Builder(
+        builder: (context) => Container(
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              Column(
                 children: [
-                  Text("Welcome  to  Dashboard, ${FirebaseAuth.instance.currentUser?.displayName}",
-                      style: TextStyle(
+                  Text("Welcome ${FirebaseAuth.instance.currentUser?.displayName}",
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF166FFF),
+                        color: mainColour,
                         fontFamily: "Poppins",
                       )),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
-                      "A platform for ordinary people with ideas that can can the world. Meet people, join groups, chat online and be a part of creating next big thing.",
-                      style: const TextStyle(fontSize: 15, color: Color(0xFF166FFF)),
+                      "Welcome to MHR Employee app where you can book meetings and desk for selected dates!",
+                      style: TextStyle(fontSize: 15, color: mainColour),
                       textAlign: TextAlign.center,
                     ),
-                  ),
-                  ElevatedButton(
-                    child: const Text('Open Hotdesk'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Floor(effectiveDate: DateTime.now(), floorTitle: 'Floor 1')),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(vertical: 13),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(const Radius.circular(5)),
-                          border:
-                          Border.all(color: const Color(0xff14279B), width: 2),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: 0.26),
-                            const Text("Log out",
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF166FFF),
-                                  fontFamily: "Poppins",
-                                )),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Icon(
-                              Icons.arrow_forward,
-                              size: 24,
-                              color: Color(0xFF166FFF),
-                            ),
-                            const SizedBox(width: 0.05),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  )
                 ],
               ),
-            ),
-          )
-        ],
+              GridView.count(
+                primary: false,
+                padding: const EdgeInsets.fromLTRB(20, 100, 20, 20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      child: Text("Book a meeting/desk"),
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const FloorSelector(),
+                      )),
+                    ),
+                    color: Colors.teal[100],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      child: Text("Past bookings"),
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const UserBooking(),
+                      )),
+                    ),
+                    color: Colors.teal[200],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      child: Text("My schedule"),
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const UserBooking(),
+                      )),
+                    ),
+                    color: Colors.teal[300],
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
