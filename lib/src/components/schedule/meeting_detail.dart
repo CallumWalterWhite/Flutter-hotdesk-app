@@ -75,10 +75,26 @@ class _MeetingDetailState extends State<MeetingDetail> {
               title: Text('Start time: ${_startTime.format(context)}'),
               onTap: _selectStartTime,
             ),
+            const Divider(
+              height: 2.0,
+            ),
             ListTile(
               leading: const Icon(Icons.access_time),
               title: Text('End time: ${_endTime.format(context)}'),
               onTap: _selectEndTime,
+            ),
+            const Divider(
+              height: 2.0,
+            ),
+            const Text("Equipment -"),
+            BulletList(const [
+              '2x Monitors',
+              '1x Microsoft keyboard',
+              '1x Microsoft mouse',
+              '1x Docking station',
+            ]),
+            const Divider(
+              height: 1.0,
             ),
             Text(validation),
             Wrap(
@@ -91,7 +107,7 @@ class _MeetingDetailState extends State<MeetingDetail> {
                         await _processBooking();
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Book'),
                   ),
                 ),
                 Padding(

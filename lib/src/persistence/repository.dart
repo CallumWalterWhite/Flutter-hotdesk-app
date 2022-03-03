@@ -12,8 +12,5 @@ class Repository {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception("User needs to login!");
-    }
   }
 }

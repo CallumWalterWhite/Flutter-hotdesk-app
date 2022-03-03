@@ -8,6 +8,7 @@ import 'package:ioc/ioc.dart';
 import '../../entities/news.dart';
 import '../../persistence/storage_repository.dart';
 import '../../services/news_service.dart';
+import '../../util/colour_palette.dart';
 import 'news_detail.dart';
 
 class NewsHome extends StatefulWidget {
@@ -91,7 +92,9 @@ class _NewsHomeState extends State<NewsHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News'),
+        iconTheme: const IconThemeData(color: mainColour),
+        title: const Text("Company news", style: TextStyle(color: mainColour)),
+        backgroundColor: Colors.white,
       ),
       body: buildWidget()
     );

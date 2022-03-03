@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../util/colour_palette.dart';
 import '../../widgets/widget.dart';
 import '../home.dart';
 
@@ -53,14 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 height: MediaQuery.of(context).size.height,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xFFF68080),
-                      Color(0xFFff0000),
-                    ],
-                  ),
+                  color: mainColour,
                 ),
                 child: SingleChildScrollView(
                   child: Column(
@@ -73,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: const TextSpan(
                           text: 'Login',
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 23,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
@@ -94,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const Text(
                                     "Email address",
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 15),
+                                        fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -124,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const Text(
                                     "Password",
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 15),
+                                        fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -189,11 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
                           child:
-                          const Icon(Icons.keyboard_arrow_left, color: Colors.black),
+                          const Icon(Icons.keyboard_arrow_left, color: Colors.white),
                         ),
                         const Text('Back',
                             style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500))
+                                fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white))
                       ],
                     ),
                   ),

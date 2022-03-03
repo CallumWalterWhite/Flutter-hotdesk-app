@@ -25,7 +25,7 @@ class _DeskDetailState extends State<DeskDetail> {
   final int floorId;
   final DateTime effectiveDate;
   late final Translation _translation = Translation();
-  static const String defaultDropDownValue = 'Select Value';
+  static const String defaultDropDownValue = 'Select day duration';
 
   String dropdownValue = defaultDropDownValue;
   String validation = '';
@@ -61,7 +61,7 @@ class _DeskDetailState extends State<DeskDetail> {
               elevation: 16,
               style: const TextStyle(color: Colors.deepPurple),
               validator: (value) {
-                if (value == "Select Value") {
+                if (value == defaultDropDownValue) {
                   return 'Please select a value from the list';
                 }
                 return null;
@@ -74,6 +74,16 @@ class _DeskDetailState extends State<DeskDetail> {
                 });
               },
             ),
+            const Divider(
+              height: 2.0,
+            ),
+            const Text("Equipment -"),
+            BulletList(const [
+              '2x Monitors',
+              '1x Microsoft keyboard',
+              '1x Microsoft mouse',
+              '1x Docking station',
+            ]),
             const Divider(
               height: 1.0,
             ),
@@ -88,7 +98,7 @@ class _DeskDetailState extends State<DeskDetail> {
                         await _processBooking();
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Book'),
                   ),
                 ),
                 Padding(

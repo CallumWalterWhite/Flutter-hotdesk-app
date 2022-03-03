@@ -6,6 +6,7 @@ import 'package:ioc/ioc.dart';
 import '../../constants/department_codes.dart';
 import '../../entities/profile.dart';
 import '../../services/profile_service.dart';
+import '../../util/colour_palette.dart';
 import '../../widgets/widget.dart';
 
 class ProfileDetail extends StatefulWidget {
@@ -146,7 +147,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        iconTheme: const IconThemeData(color: mainColour),
+        title: const Text("Profile", style: TextStyle(color: mainColour)),
+        backgroundColor: Colors.white,
       ),
       body: buildWidget()
     );

@@ -55,7 +55,14 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: const Text("Book a meeting/desk"),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.workspaces_outline),
+                          Text("Book a meeting/desk")
+                        ],
+                      ),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const FloorSelector(),
                       )),
@@ -64,7 +71,14 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: const Text("News"),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.now_wallpaper),
+                          Text("News")
+                        ],
+                      ),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const NewsHome(),
                       )),
@@ -73,7 +87,14 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      child: const Text("My Schedule"),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.wrap_text),
+                          Text("My Schedule")
+                        ],
+                      ),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const UserBooking(),
                       )),

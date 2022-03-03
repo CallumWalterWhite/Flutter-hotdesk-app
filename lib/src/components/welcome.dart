@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:itec27001/src/components/auth/signup.dart';
 
 import '../../firebase_options.dart';
+import '../util/colour_palette.dart';
 import 'home.dart';
 import 'auth/login.dart';
 
@@ -42,14 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 40),
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xFFF68080),
-                Color(0xFFff0000),
-              ],
-            ),
+            color: mainColour,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,15 +54,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 text: const TextSpan(
                   text: 'Employee app',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 23,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),
               ),
-              Image.asset('assets/logo.png'),
+              Image.asset('assets/logo_sm.png'),
               const SizedBox(
-                height: 80,
+                height: 30,
               ),
               InkWell(
                 onTap: () {

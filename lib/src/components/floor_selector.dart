@@ -75,6 +75,7 @@ class _FloorSelectorState extends State<FloorSelector> {
     listTiles.add(
         ListTile(
           leading: const Icon(Icons.date_range),
+          tileColor: Color.fromRGBO(200, 200, 200, 1),
           title: Text(
             "${effectiveDate.toLocal()}".split(' ')[0],
             style: Theme.of(context).textTheme.headline6,
@@ -84,12 +85,12 @@ class _FloorSelectorState extends State<FloorSelector> {
     );
     listTiles.add(
         ListTile(
-          leading: const Icon(Icons.monitor),
+          tileColor: Color.fromRGBO(200, 200, 200, 1),
           title: Text(
             "Floor name",
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.headline5,
           ),
-          trailing: const Icon(Icons.book),
+          trailing: const Icon(Icons.monitor),
         )
     );
     if (!floorsLoaded) {
@@ -104,19 +105,17 @@ class _FloorSelectorState extends State<FloorSelector> {
       return Column(children: listTiles,);
     }
     for (var element in floors) {
-      String? bookingCount = floorBookings[element.id]?.length.toString();
+      int? bookingCount = floorBookings[element.id]?.length;
       int? pointCount = floorLocation[element.id]?.positions.length;
       listTiles.add(
           ListTile(
-            leading: Text(
-              '   $pointCount',
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
             title: Text(
               element.title,
               style: Theme.of(context).textTheme.headline6,
             ),
-            trailing: Text(bookingCount ?? "0"),
+            trailing: Text((pointCount != null ?
+            (bookingCount != null ? (pointCount - bookingCount) : pointCount)
+                : 0).toString()),
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => FloorDetail(effectiveDate: effectiveDate, floor: element,),
             )),
