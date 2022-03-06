@@ -24,6 +24,40 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
+  Future<List<Booking>> getAllForLocation(int floorId, int locationId, DateTime effectiveDate) async {
+    List<Booking> bookings = [];
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .where('effective_date', isEqualTo: (TimestampFormatter.Format(effectiveDate)))
+        .where('floor_id', isEqualTo: floorId)
+        .where('location_id', isEqualTo: locationId)
+        .get();
+    for (var element in querySnapshot.docChanges) {
+      DocumentSnapshot documentSnapshot = element.doc;
+      bookings.add(Booking.create(documentSnapshot));
+    }
+    return bookings;
+  }
+
+  Future<List<Booking>> getAllForMeeting(int floorId, int locationId, DateTime effectiveDate, DateTime startTime, DateTime endTime) async {
+    List<Booking> bookings = [];
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .where('effective_date', isEqualTo: (TimestampFormatter.Format(effectiveDate)))
+        .where('floor_id', isEqualTo: floorId)
+        .where('location_id', isEqualTo: locationId)
+        .get();
+    for (var element in querySnapshot.docChanges) {
+      DocumentSnapshot documentSnapshot = element.doc;
+      Booking booking = Booking.create(documentSnapshot);
+      if (booking.startTime?.microsecondsSinceEpoch as int <= endTime.microsecondsSinceEpoch
+          && booking.endTime?.microsecondsSinceEpoch as int >= startTime.microsecondsSinceEpoch) {
+        bookings.add(booking);
+      }
+    }
+    return bookings;
+  }
+
   Future<List<Booking>> getAllByUserId(String userId) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance

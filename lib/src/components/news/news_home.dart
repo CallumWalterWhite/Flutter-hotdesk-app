@@ -49,6 +49,7 @@ class _NewsHomeState extends State<NewsHome> {
     if(newsLoaded){
       return GridView.builder(
           padding: const EdgeInsets.all(10),
+          scrollDirection: Axis.vertical,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
               childAspectRatio: 2 / 3,

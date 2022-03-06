@@ -28,6 +28,17 @@ class BookingService {
     return await _bookingRepository.getAll(floorId, effectiveDate);
   }
 
+
+  Future<List<Booking>> getAllForBooking(DateTime effectiveDate, int floorId, int locationId) async {
+    return await _bookingRepository.getAllForLocation(floorId, locationId, effectiveDate);
+  }
+
+  Future<List<Booking>> getAllForMeeting(int floorId, int locationId, DateTime effectiveDate, TimeOfDay start, TimeOfDay end) async {
+    DateTime startDateTime = DateTime(effectiveDate.year, effectiveDate.month, effectiveDate.day, start.hour, start.minute);
+    DateTime endDateTime = DateTime(effectiveDate.year, effectiveDate.month, effectiveDate.day, end.hour, end.minute);
+    return await _bookingRepository.getAllForMeeting(floorId, locationId, effectiveDate, startDateTime, endDateTime);
+  }
+
   Future<List<Booking>> getAllByUserId() async {
     if (FirebaseAuth.instance.currentUser == null) {
       throw Exception("No auth user instance");

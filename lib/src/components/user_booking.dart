@@ -148,8 +148,10 @@ class _UserBookingState extends State<UserBooking> {
           title: const Text("Schedule", style: TextStyle(color: mainColour)),
           backgroundColor: Colors.white,
         ),
-        body: Container(
-          child: _buildSelections(),
+        body: SingleChildScrollView(
+          child: Container(
+            child: _buildSelections(),
+          ),
         )
     );
   }

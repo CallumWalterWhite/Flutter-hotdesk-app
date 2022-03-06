@@ -33,10 +33,17 @@ class _DeskDetailState extends State<DeskDetail> {
   _DeskDetailState(this.effectiveDate, this.id, this.floorId);
 
   Future<void> _processBooking() async {
-    Booking booking = await _bookingService.createDeskBooking(effectiveDate, floorId, id, _translation.getTranslationKey(dropdownValue)!);
-    await ShowDialog(context, "Booked", "Hot desk has been booked.", () {
-      Navigator.pop(context, booking);
-    });
+    List<Booking> bookings = await _bookingService.getAllForBooking(effectiveDate, floorId, id);
+    if (bookings.isNotEmpty) {
+      await ShowDialog(context, "Unavailable", "Hot desk is unavailable for booking.", () {
+      });
+    }
+    else{
+      Booking booking = await _bookingService.createDeskBooking(effectiveDate, floorId, id, _translation.getTranslationKey(dropdownValue)!);
+      await ShowDialog(context, "Booked", "Hot desk has been booked.", () {
+        Navigator.pop(context, booking);
+      });
+    }
   }
 
   @override

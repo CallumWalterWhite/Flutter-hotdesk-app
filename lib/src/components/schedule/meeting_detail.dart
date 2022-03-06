@@ -21,18 +21,42 @@ class _MeetingDetailState extends State<MeetingDetail> {
   final int id;
   final int floorId;
   final DateTime effectiveDate;
+  late List<Booking> _todayBookings;
   TimeOfDay _startTime = const TimeOfDay(hour: 9, minute: 00);
   TimeOfDay _endTime = const TimeOfDay(hour: 10, minute: 00);
   final BookingService _bookingService = Ioc().use('bookingService');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   _MeetingDetailState({Key? key, required this.id, required this.floorId, required this.effectiveDate});
   String validation = '';
+  bool bookingLoaded = false;
+
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future <Null> init() async {
+    await loadBookings();
+  }
+
+  Future<void> loadBookings() async {
+    _todayBookings = await _bookingService.getAllForMeeting(floorId, id, effectiveDate, _startTime, _endTime);
+    setState(() {
+      bookingLoaded = true;
+    });
+  }
 
   Future<void> _processBooking() async {
-    Booking booking = await _bookingService.createMeetingBooking(effectiveDate, _startTime, _endTime, floorId, id, LocationDurationCodes.TIME);
-    await ShowDialog(context, "Booked", "Meeting has been booked.", () {
-      Navigator.pop(context, booking);
-    });
+    if (_todayBookings.isNotEmpty) {
+      await ShowDialog(context, "Unavailable", "Meeting is unavailable for time selected, please choose another time.", () {
+      });
+    }
+    else{
+      Booking booking = await _bookingService.createMeetingBooking(effectiveDate, _startTime, _endTime, floorId, id, LocationDurationCodes.TIME);
+      await ShowDialog(context, "Booked", "Meeting has been booked.", () {
+        Navigator.pop(context, booking);
+      });
+    }
   }
 
   void _selectStartTime() async {
@@ -56,6 +80,25 @@ class _MeetingDetailState extends State<MeetingDetail> {
       setState(() {
         _endTime = newTime;
       });
+    }
+  }
+
+  Widget buildTodayMeetings(){
+    if (bookingLoaded){
+      if (_todayBookings.isEmpty){
+        return const Center(child: Text('No meetings for this room'));
+      }
+      List<String> bookingStrings = [];
+      for (var element in _todayBookings) {
+        TimeOfDay startTime = TimeOfDay(hour: element.startTime?.hour as int, minute: element.startTime?.minute as int);
+        TimeOfDay endTime = TimeOfDay(hour: element.endTime?.hour as int, minute: element.endTime?.minute as int);
+        bookingStrings.add("Meeting - ${startTime.format(context)} to ${endTime.format(context)}");
+      }
+      return
+        BulletList(bookingStrings);
+    }
+    else{
+      return const Center(child: Text('loading'));
     }
   }
 
@@ -93,6 +136,8 @@ class _MeetingDetailState extends State<MeetingDetail> {
               '1x Microsoft mouse',
               '1x Docking station',
             ]),
+            const Text("Today meetings for room -"),
+            buildTodayMeetings(),
             const Divider(
               height: 1.0,
             ),
