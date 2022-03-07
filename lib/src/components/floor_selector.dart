@@ -116,9 +116,15 @@ class _FloorSelectorState extends State<FloorSelector> {
             trailing: Text((pointCount != null ?
             (bookingCount != null ? (pointCount - bookingCount) : pointCount)
                 : 0).toString()),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => FloorDetail(effectiveDate: effectiveDate, floor: element,),
-            )),
+            onTap: () async {
+              final result = await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => FloorDetail(effectiveDate: effectiveDate, floor: element,),
+              ));
+              await loadLocationData();
+              setState(() {
+
+              });
+            },
           )
       );
     }

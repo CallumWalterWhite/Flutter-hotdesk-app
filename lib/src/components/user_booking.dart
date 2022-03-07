@@ -67,9 +67,6 @@ class _UserBookingState extends State<UserBooking> {
           buildString(book, floor),
           style: Theme.of(context).textTheme.bodyText2,
         ),
-        trailing: Text(
-            _translation.getTranslation(book.duration) as String
-        ),
       );
     }
     else{
@@ -81,9 +78,6 @@ class _UserBookingState extends State<UserBooking> {
         title: Text(
           buildString(book, floor),
           style: Theme.of(context).textTheme.bodyText2,
-        ),
-        trailing: Text(
-            _translation.getTranslation(book.duration) as String
         ),
       );
     }

@@ -90,7 +90,7 @@ class _FloorDetailState extends State<FloorDetail> {
         children: buildOverlay(),
       );
     } else {
-      return const Center(child: Text('loading'));
+      return const CircularProgressIndicator();
     }
   }
   @override

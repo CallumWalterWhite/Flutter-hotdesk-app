@@ -13,22 +13,25 @@ class NewsDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(news.title),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        width: 700,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(
-              imageURL,
-              fit: BoxFit.cover,
-              height: 150,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Paragraph(news.body),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child:
+        Container(
+          alignment: Alignment.center,
+          width: 700,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(
+                imageURL,
+                fit: BoxFit.cover,
+                height: 150,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Paragraph(news.body),
+              ),
+            ],
+          ),
         ),
       )
   );

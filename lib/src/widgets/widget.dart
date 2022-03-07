@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../entities/weather.dart';
 import '../util/colour_palette.dart';
 
 class Header extends StatelessWidget {
@@ -66,7 +67,7 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ElevatedButton(
     style: ElevatedButton.styleFrom(
-      minimumSize: Size.fromHeight(50),
+      minimumSize: const Size.fromHeight(50),
     ),
     child: buildContent(),
     onPressed: onClicked,
@@ -76,10 +77,10 @@ class ButtonWidget extends StatelessWidget {
     mainAxisSize: MainAxisSize.min,
     children: [
       Icon(icon, size: 28),
-      SizedBox(width: 16),
+      const SizedBox(width: 16),
       Text(
         text,
-        style: TextStyle(fontSize: 22, color: Colors.white),
+        style: const TextStyle(fontSize: 22, color: Colors.white),
       ),
     ],
   );
@@ -108,21 +109,21 @@ class BulletList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.fromLTRB(16, 15, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: strings.map((str) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 '\u2022',
                 style: TextStyle(
                   fontSize: 16,
                   height: 1.55,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Expanded(
@@ -215,5 +216,69 @@ Future<void> ShowDialog(BuildContext context, String title, String message, Func
         ],
       );
     },
+  );
+}
+
+Widget weatherBox(Weather? _weather) {
+  if (_weather != null){
+    return Stack(children: [
+      Container(
+        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(10.0),
+        height: 160.0,
+        decoration: const BoxDecoration(
+            color: Colors.indigoAccent,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+      ),
+      Container(
+          padding: const EdgeInsets.all(10.0),
+          margin: const EdgeInsets.all(10.0),
+          height: 160.0,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        getWeatherIcon(_weather.icon),
+                        Container(
+                            margin: const EdgeInsets.all(5.0),
+                            child: Text(
+                              _weather.description,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            )),
+                      ])),
+              Column(children: <Widget>[
+                Text(
+                  "${_weather.temp.toInt()}°",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 60,
+                      color: Colors.white),
+                ),
+              ])
+            ],
+          ))
+    ]);
+  }
+  else{
+    return const SizedBox.shrink();
+  }
+}
+
+Image getWeatherIcon(String _icon) {
+  String path = 'assets/weather-icons/';
+  String imageExtension = ".png";
+  return Image.asset(
+    path + _icon + imageExtension,
+    width: 70,
+    height: 70,
   );
 }

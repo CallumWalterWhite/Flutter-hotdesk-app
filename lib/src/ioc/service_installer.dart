@@ -6,6 +6,7 @@ import '../services/location_service.dart';
 import '../services/news_service.dart';
 import '../services/profile_service.dart';
 import '../services/translation_service.dart';
+import '../services/weather_service.dart';
 
 void iocServiceLocator() {
   Ioc().bind('bookingService', (ioc) => BookingService());
@@ -14,4 +15,5 @@ void iocServiceLocator() {
   Ioc().bind('locationService', (ioc) => LocationService());
   Ioc().bind('profileService', (ioc) => ProfileService());
   Ioc().bind('newsService', (ioc) => NewsService());
+  Ioc().bind('weatherService', (ioc) => WeatherService());
 }

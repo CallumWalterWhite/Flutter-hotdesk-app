@@ -1,14 +1,50 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ioc/ioc.dart';
 import 'package:itec27001/src/components/user_booking.dart';
 
+import '../entities/latlon.dart';
+import 'package:http/http.dart' as http;
+import '../entities/weather.dart';
+import '../services/weather_service.dart';
 import '../util/colour_palette.dart';
 import '../widgets/navigation_drawer.dart';
+import '../widgets/widget.dart';
 import 'floor_selector.dart';
 import 'news/news_home.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() =>
+      _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final WeatherService _weatherService = Ioc().use('weatherService');
+  Widget currentWeatherViews(
+      BuildContext context) {
+    Weather? _weather;
+
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          _weather = snapshot.data as Weather?;
+          if (_weather == null) {
+            return const Text("Error getting weather-icons");
+          } else {
+            return weatherBox(_weather);
+          }
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+      future: _weatherService.getDefault(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +82,14 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               GridView.count(
-                primary: false,
                 padding: const EdgeInsets.fromLTRB(20, 100, 20, 20),
                 crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                mainAxisSpacing: 2,
                 crossAxisCount: 2,
                 children: <Widget>[
+                  currentWeatherViews(context),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

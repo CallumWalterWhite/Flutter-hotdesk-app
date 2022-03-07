@@ -72,7 +72,8 @@ class _LocationDetailState extends State<LocationDetail> {
 }
 
 class LocationDesk extends _LocationDetailState {
-  LocationDesk(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate) : super(id, floorId, pos, image, press, bookings, effectiveDate);
+  LocationDesk(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate)
+      : super(id, floorId, pos, image, press, bookings, effectiveDate);
   static Future<Booking?> press(BuildContext context, int id, int floorId, DateTime effectiveDate) async {
     final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => DeskDetail(id: id, floorId: floorId, effectiveDate: effectiveDate,)));
     return result;
@@ -80,7 +81,8 @@ class LocationDesk extends _LocationDetailState {
 }
 
 class LocationMeeting extends _LocationDetailState {
-  LocationMeeting(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate) : super(id, floorId, pos, image, press, bookings, effectiveDate);
+  LocationMeeting(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate)
+      : super(id, floorId, pos, image, press, bookings, effectiveDate);
   static Future<Booking?> press(BuildContext context, int id, int floorId, DateTime effectiveDate) async {
     final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetail(id: id, floorId: floorId, effectiveDate: effectiveDate, )));
     return result;
