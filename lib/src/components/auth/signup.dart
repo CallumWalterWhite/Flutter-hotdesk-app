@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ioc/ioc.dart';
 
+import '../../entities/profile.dart';
+import '../../services/profile_service.dart';
 import '../../util/colour_palette.dart';
 import '../../widgets/widget.dart';
 import '../home.dart';
@@ -16,6 +19,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   _SignUpScreenState();
 
+  final ProfileService _profileService = Ioc().use('profileService');
   final _formKey = GlobalKey<FormState>();
   final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -54,7 +58,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateDisplayName(displayName);
+      if (credential.user != null){
+        await credential.user!.updateDisplayName(displayName);
+        await _profileService.add(
+            Profile(credential.user!.uid, "", "", "All")
+        );
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

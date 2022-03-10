@@ -260,7 +260,7 @@ Widget weatherBox(Weather? _weather) {
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 60,
+                      fontSize: 40,
                       color: Colors.white),
                 ),
               ])

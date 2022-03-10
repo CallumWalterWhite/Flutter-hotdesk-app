@@ -25,4 +25,15 @@ class ProfileRepository extends Repository {
       profile.createFBObject()
     );
   }
+
+  Future<void> add(Profile profile) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .where('userId', isEqualTo: (profile.userId))
+        .get();
+
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .add(profile.createFBObject());
+  }
 }

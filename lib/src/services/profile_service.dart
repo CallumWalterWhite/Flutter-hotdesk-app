@@ -20,4 +20,11 @@ class ProfileService {
     }
     return await _profileRepository.update(profile);
   }
+
+  Future<void> add(Profile profile) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception("No auth user instance");
+    }
+    return await _profileRepository.add(profile);
+  }
 }
