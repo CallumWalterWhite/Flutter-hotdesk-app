@@ -8,6 +8,7 @@ class News {
   final String image;
   News(this.id, this.department, this.body, this.title, this.image);
 
+  //take documentSnapshot and extracts the data to create a News object
   static News create(DocumentSnapshot documentSnapshot){
     News profile =
     News(

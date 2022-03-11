@@ -6,6 +6,7 @@ class Location {
   final List<Position> positions;
   Location(this.floorId, this.positions);
 
+  //take documentSnapshot and extracts the data to create a Location object
   static Location create(DocumentSnapshot documentSnapshot){
     List<Position> positions = [];
     for (var element in (documentSnapshot["points"] as List<dynamic>)) {

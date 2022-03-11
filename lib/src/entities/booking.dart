@@ -14,6 +14,7 @@ class Booking implements FirebaseDocument {
   late DateTime? endTime;
   Booking(this.effectiveDate, this.floorId, this.locationId, this.duration);
 
+  //take documentSnapshot and extracts the data to create a Booking object
   static Booking create(DocumentSnapshot documentSnapshot){
     Timestamp timestamp = documentSnapshot["effective_date"];
     DateTime date = DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
@@ -27,6 +28,7 @@ class Booking implements FirebaseDocument {
     if (duration == LocationDurationCodes.TIME){
       Timestamp startTimestamp = documentSnapshot["startTime"];
       Timestamp endTimestamp = documentSnapshot["endTime"];
+      //Coverts timestamps into Datetime
       DateTime startDateTime = DateTime.fromMicrosecondsSinceEpoch(startTimestamp.microsecondsSinceEpoch);
       DateTime endDateTime = DateTime.fromMicrosecondsSinceEpoch(endTimestamp.microsecondsSinceEpoch);
       booking.startTime = startDateTime;

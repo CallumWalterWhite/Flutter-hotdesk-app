@@ -8,6 +8,7 @@ class FloorRepository extends Repository {
     init();
   }
 
+  //Get all Firebase floors
   Future<List<Floor>> getAll() async {
     List<Floor> floors = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
@@ -20,6 +21,7 @@ class FloorRepository extends Repository {
     return floors;
   }
 
+  //Get all Firebase floor by id
   Future<Floor> get(int id) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)

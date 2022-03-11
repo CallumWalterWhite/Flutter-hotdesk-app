@@ -7,6 +7,7 @@ class Profile {
   final String department;
   Profile(this.userId, this.firstName, this.surname, this.department);
 
+  //take documentSnapshot and extracts the data to create a Profile object
   static Profile create(DocumentSnapshot documentSnapshot){
     Profile profile =
     Profile(

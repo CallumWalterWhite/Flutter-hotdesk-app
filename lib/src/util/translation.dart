@@ -9,10 +9,12 @@ class Translation {
     };
   }
 
+  //Get translation by key
   String? getTranslation(String key){
     return translations[key];
   }
 
+  //Get key by translation value
   String? getTranslationKey(String value){
     String? tkey;
     translations.forEach((key, t) {

@@ -8,6 +8,7 @@ class ProfileRepository extends Repository {
     init();
   }
 
+  //Get all Firebase Profile by user id
   Future<Profile> get(String userId) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
@@ -16,6 +17,7 @@ class ProfileRepository extends Repository {
     return Profile.create(querySnapshot.docChanges.first.doc);
   }
 
+  //Convert profile into firebase object and update document
   Future<void> update(Profile profile) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
@@ -26,6 +28,7 @@ class ProfileRepository extends Repository {
     );
   }
 
+  //Convert profile into firebase object and add document
   Future<void> add(Profile profile) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)

@@ -10,6 +10,7 @@ class NewsRepository extends Repository {
     init();
   }
 
+  //Get all Firebase news by department string
   Future<List<News>> getAll(String department) async {
     List<News> news = [];
     CollectionReference<Map<String, dynamic>> collectionReference = FirebaseFirestore.instance

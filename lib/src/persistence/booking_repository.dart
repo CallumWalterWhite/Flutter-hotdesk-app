@@ -10,6 +10,7 @@ class BookingRepository extends Repository {
     init();
   }
 
+  //Get all Firebase bookings by floor id and effective date
   Future<List<Booking>> getAll(int floorId, DateTime effectiveDate) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
@@ -24,6 +25,7 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
+  //Get all Firebase bookings by floor id, location id and effective date
   Future<List<Booking>> getAllForLocation(int floorId, int locationId, DateTime effectiveDate) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
@@ -39,6 +41,7 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
+  //Get all Firebase bookings for meetings by floor id, location id and effective date which overlaps the start and end time
   Future<List<Booking>> getAllForMeeting(int floorId, int locationId, DateTime effectiveDate, DateTime startTime, DateTime endTime) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
@@ -58,6 +61,7 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
+  //Get all Firebase bookings by user id
   Future<List<Booking>> getAllByUserId(String userId) async {
     List<Booking> bookings = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
@@ -71,6 +75,7 @@ class BookingRepository extends Repository {
     return bookings;
   }
 
+  //Get latest Firebase bookings
   Future<Booking?> getLatest() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
@@ -84,6 +89,7 @@ class BookingRepository extends Repository {
     return Booking.create(documentSnapshot);
   }
 
+  //Convert booking into Firebase object and adds it to the collection
   Future<void> add(Booking booking) async {
     Booking? latestBooking = await getLatest();
     booking.setId(latestBooking != null ? (latestBooking.id! + 1) : 1);

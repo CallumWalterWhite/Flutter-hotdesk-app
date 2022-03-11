@@ -7,6 +7,7 @@ class Position {
 
   Position(this.id, this.posX, this.posY, this.type);
 
+  //take documentSnapshot and extracts the data to create a Position object
   static Position create(dynamic documentSnapshot){
     Position position =
     Position(

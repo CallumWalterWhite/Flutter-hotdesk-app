@@ -8,6 +8,7 @@ class LocationRepository extends Repository {
     init();
   }
 
+  //Get all Firebase locations by floor id
   Future<Location> get(int floorId) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection(collectionName)
