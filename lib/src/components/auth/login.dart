@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final String? email;
 
+  /*
+  Authenticates the email and password on firebase, if authenticates, redirect user to Home screen
+   */
   Future<void> signInWithEmailAndPassword(
       void Function(FirebaseAuthException e) errorCallback,
       ) async {

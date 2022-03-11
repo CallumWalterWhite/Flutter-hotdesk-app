@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ioc/ioc.dart';
 import 'package:itec27001/src/components/user_booking.dart';
-
-import '../entities/latlon.dart';
-import 'package:http/http.dart' as http;
 import '../entities/weather.dart';
 import '../services/weather_service.dart';
 import '../util/colour_palette.dart';
@@ -25,7 +20,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final WeatherService _weatherService = Ioc().use('weatherService');
-  Widget currentWeatherViews(
+
+  //builds widget which awaits for getDefault from weather service to return before building, else it shows a spinner
+  Widget currentWeatherWidget(
       BuildContext context) {
     Weather? _weather;
 
@@ -87,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 2,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  currentWeatherViews(context),
+                  currentWeatherWidget(context),
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(

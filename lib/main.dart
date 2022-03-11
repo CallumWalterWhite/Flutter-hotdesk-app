@@ -9,6 +9,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //IOC - inversion of control
+  //Allows for injection of services and repository into our components
   iocServiceLocator();
   iocPersistenceLocator();
   await Firebase.initializeApp(
@@ -21,7 +23,6 @@ void main() async {
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import '../components/schedule/location_detail.dart';
 import '../entities/booking.dart';
 import '../constants/location_type_codes.dart';
 
+//A factory for location icons, either being a hot desk or a meeting room
 class LocationFactory {
   static State<LocationDetail> create(int id, int floorId, Offset pos, String type, List<Booking> bookings, DateTime effectiveDate) {
     switch(type){

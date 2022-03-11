@@ -8,6 +8,7 @@ import '../services/profile_service.dart';
 import '../services/translation_service.dart';
 import '../services/weather_service.dart';
 
+//injection setup
 void iocServiceLocator() {
   Ioc().bind('bookingService', (ioc) => BookingService());
   Ioc().bind('floorService', (ioc) => FloorService());

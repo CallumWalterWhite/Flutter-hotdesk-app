@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:itec27001/src/components/auth/profile_detail.dart';
 
 import '../components/news/news_home.dart';
-import '../components/schedule/floor_detail.dart';
 import '../components/floor_selector.dart';
 import '../components/home.dart';
 import '../components/user_booking.dart';

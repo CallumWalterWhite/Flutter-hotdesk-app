@@ -37,6 +37,8 @@ class _UserBookingState extends State<UserBooking> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <Null> init() async {
     floors = await _floorService.getAll();
     bookings = await _bookingService.getAllByUserId();

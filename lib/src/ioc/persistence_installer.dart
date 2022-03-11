@@ -7,6 +7,7 @@ import '../persistence/news_repository.dart';
 import '../persistence/profile_repository.dart';
 import '../persistence/storage_repository.dart';
 
+//injection setup
 void iocPersistenceLocator() {
   Ioc().bind('bookingRepository', (ioc) => BookingRepository());
   Ioc().bind('floorRepository', (ioc) => FloorRepository());

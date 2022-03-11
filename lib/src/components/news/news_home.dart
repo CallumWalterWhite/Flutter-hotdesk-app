@@ -31,13 +31,17 @@ class _NewsHomeState extends State<NewsHome> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <void> init() async {
     await loadNewsData();
   }
 
+  //Async call into news service, which calls into firebase
   Future<void> loadNewsData() async {
     news = await _newsService.getAll();
     for (var element in news) {
+      //All images are stored in firebase and then loads image via network
       newsImages[element.id] = await _storageRepository.downloadURL(element.image);
     }
     setState(() {

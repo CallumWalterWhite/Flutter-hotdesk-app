@@ -4,20 +4,6 @@ import 'package:flutter/material.dart';
 import '../entities/weather.dart';
 import '../util/colour_palette.dart';
 
-class Header extends StatelessWidget {
-  const Header(this.heading);
-  final String heading;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Text(
-      heading,
-      style: const TextStyle(fontSize: 24),
-    ),
-  );
-}
-
 class Paragraph extends StatelessWidget {
   const Paragraph(this.content);
   final String content;
@@ -28,61 +14,6 @@ class Paragraph extends StatelessWidget {
       content,
       style: const TextStyle(fontSize: 18),
     ),
-  );
-}
-
-class IconAndDetail extends StatelessWidget {
-  const IconAndDetail(this.icon, this.detail);
-  final IconData icon;
-  final String detail;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 8),
-        Text(
-          detail,
-          style: const TextStyle(fontSize: 18),
-        )
-      ],
-    ),
-  );
-}
-
-class ButtonWidget extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onClicked;
-
-  const ButtonWidget({
-    Key? key,
-    required this.icon,
-    required this.text,
-    required this.onClicked,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      minimumSize: const Size.fromHeight(50),
-    ),
-    child: buildContent(),
-    onPressed: onClicked,
-  );
-
-  Widget buildContent() => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Icon(icon, size: 28),
-      const SizedBox(width: 16),
-      Text(
-        text,
-        style: const TextStyle(fontSize: 22, color: Colors.white),
-      ),
-    ],
   );
 }
 

@@ -19,6 +19,7 @@ class DeskDetail extends StatefulWidget {
 }
 
 class _DeskDetailState extends State<DeskDetail> {
+  //injects service
   final BookingService _bookingService = Ioc().use('bookingService');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final int id;
@@ -32,6 +33,9 @@ class _DeskDetailState extends State<DeskDetail> {
 
   _DeskDetailState(this.effectiveDate, this.id, this.floorId);
 
+  //A async method which first validates if there is any bookings already for the hot desk
+  //If validation passes, it create a new booking with the hot desk information within firebase
+  //Once booking is created in firebase, the modal opens to show booking has been successful
   Future<void> _processBooking() async {
     List<Booking> bookings = await _bookingService.getAllForBooking(effectiveDate, floorId, id);
     if (bookings.isNotEmpty) {

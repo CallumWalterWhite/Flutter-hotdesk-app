@@ -19,12 +19,16 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   _SignUpScreenState();
 
+  //injects service
   final ProfileService _profileService = Ioc().use('profileService');
   final _formKey = GlobalKey<FormState>();
   final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  /*
+  Get sign in methods for email from firebase to check if email is already registered
+   */
   Future<void> verifyEmail(
       void Function(FirebaseAuthException e) errorCallback,
       ) async {
@@ -50,6 +54,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  /*
+  Registers email with firebase, once authenticated, creates a Profile on the Firebase database
+  and then redirect the user to the home screen
+   */
   Future<void> registerAccount(
       String email,
       String displayName,

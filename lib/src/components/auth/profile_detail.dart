@@ -35,10 +35,13 @@ class _ProfileDetailState extends State<ProfileDetail> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <void> init() async {
     await loadProfile();
   }
 
+  //Async call into profile service, which calls into firebase
   Future<void> loadProfile() async {
     profile = await _profileService.get();
     setState(() {
@@ -49,6 +52,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
     });
   }
 
+  //Async call into profile service to update, which calls into firebase
   Future<void> updateProfile() async {
     Profile uProfile = Profile(profile.userId, _firstNameController.text, _surnameController.text, dropdownValue);
     await _profileService.update(uProfile);

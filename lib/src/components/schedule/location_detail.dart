@@ -15,6 +15,7 @@ class LocationDetail extends StatefulWidget {
   final String type;
   final DateTime effectiveDate;
 
+  //Calls into location factory to create correct state component
   @override
   State<LocationDetail> createState() => LocationFactory.create(id, floorId, pos, type, bookings, effectiveDate);
 }
@@ -71,6 +72,7 @@ class _LocationDetailState extends State<LocationDetail> {
   }
 }
 
+//Inherits off the base location detail state
 class LocationDesk extends _LocationDetailState {
   LocationDesk(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate)
       : super(id, floorId, pos, image, press, bookings, effectiveDate);
@@ -80,6 +82,7 @@ class LocationDesk extends _LocationDetailState {
   }
 }
 
+//Inherits off the base location detail state
 class LocationMeeting extends _LocationDetailState {
   LocationMeeting(int id, int floorId, Offset pos, Image image, List<Booking> bookings, DateTime effectiveDate)
       : super(id, floorId, pos, image, press, bookings, effectiveDate);

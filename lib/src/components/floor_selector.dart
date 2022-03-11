@@ -36,10 +36,13 @@ class _FloorSelectorState extends State<FloorSelector> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <void> init() async {
     await loadLocationData();
   }
 
+  //Async call into floor, booking and location services, which calls into firebase
   Future<void> loadLocationData() async {
     floors = await _floorService.getAll();
     for (var element in floors) {
@@ -53,6 +56,9 @@ class _FloorSelectorState extends State<FloorSelector> {
     });
   }
 
+  //Async context widget builder
+  //awaits the response from date picker
+  //sets dataLoaded to false to then retrieve the new data base on effective date
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -70,6 +76,8 @@ class _FloorSelectorState extends State<FloorSelector> {
     }
   }
 
+  //build header tile widgets
+  //loops through floors to build up tile widgets
   Widget _buildSelections() {
     List<ListTile> listTiles = [];
     listTiles.add(

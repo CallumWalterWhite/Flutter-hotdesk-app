@@ -24,6 +24,7 @@ class _MeetingDetailState extends State<MeetingDetail> {
   late List<Booking> _todayBookings;
   TimeOfDay _startTime = const TimeOfDay(hour: 9, minute: 00);
   TimeOfDay _endTime = const TimeOfDay(hour: 10, minute: 00);
+  //injects service
   final BookingService _bookingService = Ioc().use('bookingService');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   _MeetingDetailState({Key? key, required this.id, required this.floorId, required this.effectiveDate});
@@ -35,19 +36,26 @@ class _MeetingDetailState extends State<MeetingDetail> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <Null> init() async {
     await loadBookings();
   }
 
+  //Load current bookings for meeting room
   Future<void> loadBookings() async {
-    _todayBookings = await _bookingService.getAllForMeeting(floorId, id, effectiveDate, _startTime, _endTime);
+    _todayBookings = await _bookingService.getAllForMeeting(floorId, id, effectiveDate, const TimeOfDay(hour: 0, minute: 00), const TimeOfDay(hour: 23, minute: 59));
     setState(() {
       bookingLoaded = true;
     });
   }
 
+  //A async method which first validates if there is any meeting which overlaps the time given
+  //If validation passes, it create a new booking with the meeting information within firebase
+  //Once booking is created in firebase, the modal opens to show booking has been successful
   Future<void> _processBooking() async {
-    if (_todayBookings.isNotEmpty) {
+    List<Booking> todayBookings = await _bookingService.getAllForMeeting(floorId, id, effectiveDate, _startTime, _endTime);
+    if (todayBookings.isNotEmpty) {
       await ShowDialog(context, "Unavailable", "Meeting is unavailable for time selected, please choose another time.", () {
       });
     }

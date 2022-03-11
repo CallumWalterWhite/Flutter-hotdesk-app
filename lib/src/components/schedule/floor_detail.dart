@@ -27,9 +27,11 @@ class _FloorDetailState extends State<FloorDetail> {
 
   final Floor floor;
   final DateTime effectiveDate;
-
+  //injects service
   final BookingService _bookingService = Ioc().use('bookingService');
+  //injects service
   final LocationService _locationService = Ioc().use('locationService');
+  //injects service
   final StorageRepository _storageRepository = Ioc().use('storageRepository');
 
   late List<Booking> _bookings;
@@ -43,11 +45,14 @@ class _FloorDetailState extends State<FloorDetail> {
     init();
   }
 
+  //Async page loading
+  //Shows loading when task being ran to get information
   Future <Null> init() async {
     await loadFloor(floor);
     await loadLocationPoints(floor);
   }
 
+  //Loads floor image via network
   Future<void> loadFloor(Floor floor) async {
     image = Image.network(await _storageRepository.downloadURL(floor.overlay));
     setState(() {
@@ -55,6 +60,7 @@ class _FloorDetailState extends State<FloorDetail> {
     });
   }
 
+  //Async call into location service, which calls into firebase
   Future<void> loadLocationPoints(Floor floor) async {
     location = await _locationService.get(floor.id);
     _bookings = await _bookingService.getAll(effectiveDate, floor.id);
@@ -108,6 +114,7 @@ class _FloorDetailState extends State<FloorDetail> {
   }
 }
 
+//Custom painter which draws the image canvas of the outline of the office
 class FloorOverlay extends CustomPainter {
   FloorOverlay({
     required this.image,
